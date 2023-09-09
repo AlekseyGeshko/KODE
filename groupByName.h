@@ -16,6 +16,6 @@ namespace group {
         void printInFile(std::ofstream &out) override;
 
     private:
-        std::unordered_map<char, std::vector<const object *>> groups;
+        std::unordered_map<std::string, std::vector<const object *>> groups;
     };
 }
