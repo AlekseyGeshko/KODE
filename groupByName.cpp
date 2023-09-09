@@ -9,7 +9,7 @@ void groupByName::group(const std::vector<object>& data) {
         if (std::find(ru_alph.begin(), ru_alph.end(), _object_.name[0]) != ru_alph.end()) {
             groups[std::string{_object_.name[0]}].push_back(&_object_);
         } else {
-            groups['#'].push_back(&_object_);
+            groups["#"].push_back(&_object_);
         }
     }
 }
