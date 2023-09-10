@@ -2,6 +2,17 @@
 
 using namespace group;
 
+
+void groupByTime::sortGroups() {
+    auto comp = [](const object* lhs, const object* rhs){
+        return lhs->time < rhs->time;
+    };
+    std::sort(today.begin(), today.end(), comp);
+    std::sort(yesterday.begin(), yesterday.end(), comp);
+    std::sort(week.begin(), week.end(), comp);
+    std::sort(earlier.begin(), earlier.end(), comp);
+}
+
 void groupByTime::group(const std::vector<object>& data) {
     for (const auto &obj: data) {
         auto curr_time = time(nullptr);
@@ -15,24 +26,25 @@ void groupByTime::group(const std::vector<object>& data) {
             earlier.push_back(&obj);
         }
     }
+    sortGroups();
 }
 
-void groupByTime::printInFile(std::ofstream& out) {
+void groupByTime::printInFile(std::ofstream& out) const{
     out << "--------Группировка по времени--------\n";
     if (!today.empty()) {
         out << "За сегодня\n";
-        printGroup(sortGroup(today), out);
+        printGroup(today, out);
     }
     if (!yesterday.empty()) {
         out << "За вчера\n";
-        printGroup(sortGroup(yesterday), out);
+        printGroup(yesterday, out);
     }
     if (!week.empty()) {
         out << "За неделю\n";
-        printGroup(sortGroup(week), out);
+        printGroup(week, out);
     }
     if (!earlier.empty()) {
         out << "Ранее\n";
-        printGroup(sortGroup(earlier), out);
+        printGroup(earlier, out);
     }
 }
