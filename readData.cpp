@@ -2,6 +2,13 @@
 
 using namespace std;
 
+std::ostream& operator <<(std::ostream& out, const object& elem){
+    return out << '{' << elem.name << ' '
+               << elem.x << ' ' << elem.y << ' '
+               << elem.type << ' '
+               << elem.time << '}' << '\n';
+}
+
 readData::readData(const string& input_file): input(input_file) {}
 
 vector<object> readData::getObjects() {
