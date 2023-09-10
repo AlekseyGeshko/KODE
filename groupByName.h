@@ -13,9 +13,10 @@ namespace group {
     public:
         void group(const std::vector<object> &data) override;
 
-        void printInFile(std::ofstream &out) override;
+        void printInFile(std::ofstream &out) const override;
 
     private:
+        void sortGroups();
         std::unordered_map<std::string, std::vector<const object *>> groups;
     };
 }
