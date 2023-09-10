@@ -12,10 +12,8 @@ namespace group {
     };
 
     inline void printGroup(const std::vector<const object *> &elements, std::ofstream &out) {
-        for (const auto &elem: elements) {
-            out << '{' << elem->name << ' '
-                << elem->x << ' ' << elem->y << ' '
-                << elem->time << '}' << '\n';
+        for (const object *elem: elements) {
+            out << *elem;
         }
         out << std::endl;
     }
