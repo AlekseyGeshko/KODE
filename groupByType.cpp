@@ -5,16 +5,31 @@
 
 using namespace group;
 
+void groupByType::sortGroup(std::vector<const object *>& elements){
+    std::sort( elements.begin(),   elements.end(),
+              [](const object* lhs, const object* rhs){
+                  return lhs->name < rhs->name;
+              });
+}
+
 void groupByType::createGroups(const std::vector<object>& data){
     for (size_t i = 0; i < data.size(); ++i) {
         ++my_groups[data[i].type].first;
         my_groups[data[i].type].second.push_back(&data[i]);
     }
+    for (auto &[_, count_index]: my_groups) {
+        if (count_index.first <= need_objects) {
+            addElements(count_index.second);
+        }else{
+            sortGroup(count_index.second);
+        }
+    }
+    sortGroup(difference_elements);
 }
 
-void groupByType::addElements(std::vector<const object*>& elements, std::vector<const object*> objects) {
+void groupByType::addElements(std::vector<const object*>& objects) {
     for (size_t i = 0; i < objects.size(); ++i) {
-        elements.push_back(objects[i]);
+        difference_elements.push_back(objects[i]);
     }
 }
 
@@ -24,21 +39,16 @@ void groupByType::group(const std::vector<object>& data){
     createGroups(data);
 }
 
-void groupByType::printInFile(std::ofstream& out) {
-    std::vector<const object *> difference_elements;
+void groupByType::printInFile(std::ofstream& out) const{
     out << "--------Группировка по типу--------\n";
     for (const auto &[type, count_index]: my_groups) {
-        if (count_index.first <= need_objects) {
-            addElements(difference_elements, count_index.second);
-        } else {
-            std::vector<const object *> elements;
-            addElements(elements, count_index.second);
-            out << elements[0]->type << '\n';
-            printGroup(sortGroup(elements), out);
+        if (count_index.first > need_objects && !count_index.second.empty()) {
+            out << count_index.second[0]->type << '\n';
+            printGroup(count_index.second, out);
         }
     }
     if (!difference_elements.empty()) {
         out << "Разное\n";
-        printGroup(sortGroup(difference_elements), out);
+        printGroup(difference_elements, out);
     }
 }
