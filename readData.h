@@ -10,6 +10,8 @@ struct object{
     double y;
 };
 
+std::ostream& operator <<(std::ostream& out, const object& elem);
+
 class readData final{
 public:
     readData(const std::string& input_file);
@@ -18,4 +20,3 @@ public:
 private:
     std::ifstream input;
 };
-
