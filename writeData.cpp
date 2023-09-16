@@ -1,6 +1,7 @@
 #include "writeData.h"
 
 #include <fstream>
+#include <memory>
 #include <vector>
 
 #include "readData.h"
@@ -11,13 +12,17 @@
 #include "groupByName.h"
 
 using namespace group;
+using namespace std;
 
-writeData::writeData(const std::string& output_file): output(output_file){}
+writeData::writeData(const string& output_file): output(output_file){}
 
 void writeData::writeIntoFile(const std::vector<object>& elements, int need_count) {
-    std::vector<groupBy *> groups = {new groupByType(need_count),
-                                     new groupByName(), new groupByTime(),
-                                     new groupByDistance()};
+    vector<unique_ptr<groupBy>> groups;
+    groups.reserve(4);
+    groups.push_back(make_unique<groupByType>(need_count));
+    groups.push_back(make_unique<groupByName>());
+    groups.push_back(make_unique<groupByTime>());
+    groups.push_back(make_unique<groupByDistance>());
     for (const auto &elem: groups) {
         elem->group(elements);
         elem->printInFile(output);
