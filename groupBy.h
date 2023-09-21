@@ -9,6 +9,8 @@ namespace group {
         virtual void group(const std::vector<object> &data) = 0;
 
         virtual void printInFile(std::ofstream &out) const = 0;
+
+        virtual ~groupBy(){}
     };
 
     inline void printGroup(const std::vector<const object *> &elements, std::ofstream &out) {
