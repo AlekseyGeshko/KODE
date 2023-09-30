@@ -6,7 +6,7 @@
 
 class writeData {
 public:
-    writeData(const std::string& output_file);
+    explicit writeData(const std::string& output_file);
     void writeIntoFile(const std::vector<object>& elements, int need_count);
     ~writeData();
 private:
