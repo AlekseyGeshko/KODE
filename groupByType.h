@@ -19,7 +19,7 @@ namespace group {
 
         void sortGroup(std::vector<const object *>& elements);
     public:
-        groupByType(int _need_objects);
+        explicit groupByType(int _need_objects);
 
         void group(const std::vector<object>& data) override;
 
