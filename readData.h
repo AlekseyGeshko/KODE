@@ -14,7 +14,7 @@ std::ostream& operator <<(std::ostream& out, const object& elem);
 
 class readData final{
 public:
-    readData(const std::string& input_file);
+    explicit readData(const std::string& input_file);
     std::vector<object> getObjects();
     ~readData();
 private:
